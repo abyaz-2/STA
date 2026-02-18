@@ -4,6 +4,7 @@ import '../services/storage_service.dart';
 import '../widgets/subscription_tile.dart';
 import 'add_subscription_screen.dart';
 
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -12,8 +13,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
   List<Subscription> subscriptions = [];
-
+  int selectedIndex = 0;
   @override
   void initState() {
     super.initState();
