@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../models/subscription.dart';
-import '../services/storage_service.dart';
-import '../widgets/subscription_tile.dart';
-import 'add_subscription_screen.dart';
-
+import '../features/dashboard/dashboard_screen.dart';
+import '../features/subscriptions/subscription_list_screen.dart';
+import '../features/groups/groups_screen.dart';
+import '../features/analytics/analytics_screen.dart';
+import '../services/profile_service.dart';
+import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,72 +14,83 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  
-  List<Subscription> subscriptions = [];
-  int selectedIndex = 0;
-  @override
-  void initState() {
-    super.initState();
-    loadSubscriptions();
-  }
+  int _currentIndex = 0;
+  final ProfileService _profileService = ProfileService();
 
-  void loadSubscriptions() {
-    setState(() {
-      subscriptions = StorageService.getSubscriptions();
-    });
-  }
-
-  double getTotalMonthly() {
-    double total = 0;
-    for (var sub in subscriptions) {
-      if (sub.billingCycle == "monthly") {
-        total += sub.amount;
-      } else {
-        total += sub.amount / 12;
-      }
-    }
-    return total;
-  }
+  final List<Widget> _screens = [
+    const DashboardScreen(),
+    const SubscriptionListScreen(),
+    const GroupsScreen(),
+    const AnalyticsScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
+    final user = _profileService.getCurrentUser();
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Subscriptions")),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              "Total Monthly: ₹${getTotalMonthly().toStringAsFixed(2)}",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      appBar: AppBar(
+        elevation: 0,
+        actions: [
+          if (user != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ProfileScreen(user: user),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Tooltip(
+                    message: user.name,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.deepPurple,
+                      child: Text(
+                        user.name[0].toUpperCase(),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: subscriptions.length,
-              itemBuilder: (context, index) {
-                final sub = subscriptions[index];
-                return SubscriptionTile(
-                  subscription: sub,
-                  onDelete: () async {
-                    await StorageService.deleteSubscription(sub.id);
-                    loadSubscriptions();
-                  },
-                );
-              },
-            ),
-          ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const AddSubscriptionScreen()),
-          );
-          loadSubscriptions();
+      body: _screens[_currentIndex],
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
         },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.dashboard_outlined),
+            selectedIcon: Icon(Icons.dashboard),
+            label: 'Dashboard',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.list_alt_outlined),
+            selectedIcon: Icon(Icons.list_alt),
+            label: 'Subscriptions',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.group_outlined),
+            selectedIcon: Icon(Icons.group),
+            label: 'Groups',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.analytics_outlined),
+            selectedIcon: Icon(Icons.analytics),
+            label: 'Analytics',
+          ),
+        ],
       ),
     );
   }
