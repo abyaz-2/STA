@@ -13,25 +13,11 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   List<Subscription> subscriptions = [];
-  Map<String, String> categoryIdToName = {}; // id -> name mapping
 
   @override
   void initState() {
     super.initState();
     loadSubscriptions();
-    loadCategoryNames();
-  }
-
-  void loadCategoryNames() async {
-    final categoryService = CategoryService();
-    final categories = await categoryService.getAllCategories();
-    final mapping = <String, String>{};
-    for (var cat in categories) {
-      mapping[cat.id] = cat.name;
-    }
-    setState(() {
-      categoryIdToName = mapping;
-    });
   }
 
   void loadSubscriptions() {
@@ -64,21 +50,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         )
         .take(5)
         .toList();
-  }
-
-  Map<String, double> get categorySpend {
-    Map<String, double> map = {};
-    for (var sub in subscriptions) {
-      final catId = sub.category ?? 'Other';
-      final catName = categoryIdToName[catId] ?? 'Other';
-      final current = map[catName] ?? 0;
-      map[catName] =
-          current +
-          (sub.billingCycle.toLowerCase() == 'monthly'
-              ? sub.amount
-              : sub.amount / 12);
-    }
-    return map;
   }
 
   @override
@@ -132,15 +103,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            SizedBox(
-              height: 200,
-              child: PieChart(
-                PieChartData(
-                  sections: _buildPieSections(),
-                  centerSpaceRadius: 40,
-                  sectionsSpace: 2,
-                ),
-              ),
+            FutureBuilder<List<PieChartSectionData>>(
+              future: _buildPieSectionsAsync(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox(
+                    height: 200,
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return const SizedBox(
+                    height: 200,
+                    child: Center(child: Text('Error loading chart')),
+                  );
+                }
+                final sections = snapshot.data ?? [];
+                return SizedBox(
+                  height: 200,
+                  child: PieChart(
+                    PieChartData(
+                      sections: sections,
+                      centerSpaceRadius: 40,
+                      sectionsSpace: 2,
+                    ),
+                  ),
+                );
+              },
             ),
             const SizedBox(height: 24),
 
@@ -169,7 +158,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  List<PieChartSectionData> _buildPieSections() {
+  Future<List<PieChartSectionData>> _buildPieSectionsAsync() async {
     final colors = [
       Colors.indigo,
       Colors.teal,
@@ -177,10 +166,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
       Colors.deepOrange,
       Colors.purple,
     ];
-    final map = categorySpend;
-    int index = 0;
 
-    return map.entries.map((e) {
+    // Build category map with proper names
+    final categoryService = CategoryService();
+    final categories = await categoryService.getAllCategories();
+    final categoryMap = <String, String>{};
+    for (var cat in categories) {
+      categoryMap[cat.id] = cat.name;
+    }
+
+    // Calculate spending by category name
+    final spending = <String, double>{};
+    for (var sub in subscriptions) {
+      final catId = sub.category;
+      String catName = 'Other';
+      if (catId != null && categoryMap.containsKey(catId)) {
+        catName = categoryMap[catId]!;
+      }
+
+      final current = spending[catName] ?? 0;
+      spending[catName] = current +
+          (sub.billingCycle.toLowerCase() == 'monthly'
+              ? sub.amount
+              : sub.amount / 12);
+    }
+
+    int index = 0;
+    return spending.entries.map((e) {
       final color = colors[index % colors.length];
       index++;
       return PieChartSectionData(
