@@ -185,7 +185,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       }
 
       final current = spending[catName] ?? 0;
-      spending[catName] = current +
+      spending[catName] =
+          current +
           (sub.billingCycle.toLowerCase() == 'monthly'
               ? sub.amount
               : sub.amount / 12);

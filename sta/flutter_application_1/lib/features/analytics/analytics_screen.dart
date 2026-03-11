@@ -32,7 +32,11 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
       // Use category ID as key for now, will convert to names in build
       final cat = sub.category ?? 'Other';
       final current = map[cat] ?? 0;
-      map[cat] = current + (sub.billingCycle.toLowerCase() == 'monthly' ? sub.amount : sub.amount / 12);
+      map[cat] =
+          current +
+          (sub.billingCycle.toLowerCase() == 'monthly'
+              ? sub.amount
+              : sub.amount / 12);
     }
     return map;
   }
@@ -52,9 +56,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
       if (catId != null && categoryMap.containsKey(catId)) {
         catName = categoryMap[catId]!;
       }
-      
+
       final current = map[catName] ?? 0;
-      map[catName] = current + (sub.billingCycle.toLowerCase() == 'monthly' ? sub.amount : sub.amount / 12);
+      map[catName] =
+          current +
+          (sub.billingCycle.toLowerCase() == 'monthly'
+              ? sub.amount
+              : sub.amount / 12);
     }
     return map;
   }
@@ -83,7 +91,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Text('Spend by Category', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      const Text(
+                        'Spend by Category',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       const SizedBox(height: 24),
                       Expanded(
                         flex: 2,
@@ -96,9 +110,12 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                 sideTitles: SideTitles(
                                   showTitles: true,
                                   getTitlesWidget: (value, meta) {
-                                    if (value.toInt() >= 0 && value.toInt() < catData.length) {
+                                    if (value.toInt() >= 0 &&
+                                        value.toInt() < catData.length) {
                                       return Padding(
-                                        padding: const EdgeInsets.only(top: 8.0),
+                                        padding: const EdgeInsets.only(
+                                          top: 8.0,
+                                        ),
                                         child: Text(
                                           catData[value.toInt()].key,
                                           style: const TextStyle(fontSize: 10),
@@ -115,11 +132,18 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                 sideTitles: SideTitles(
                                   showTitles: true,
                                   reservedSize: 40,
-                                  getTitlesWidget: (value, meta) => Text('₹${value.toInt()}', style: const TextStyle(fontSize: 10)),
+                                  getTitlesWidget: (value, meta) => Text(
+                                    '₹${value.toInt()}',
+                                    style: const TextStyle(fontSize: 10),
+                                  ),
                                 ),
                               ),
-                              topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                              rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                              topTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                              rightTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
                             ),
                             borderData: FlBorderData(show: false),
                             barGroups: catData.asMap().entries.map((entry) {
@@ -128,10 +152,12 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                 barRods: [
                                   BarChartRodData(
                                     toY: entry.value.value,
-                                    color: Theme.of(context).colorScheme.primary,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
                                     width: 16,
                                     borderRadius: BorderRadius.circular(4),
-                                  )
+                                  ),
                                 ],
                               );
                             }).toList(),
@@ -139,7 +165,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                         ),
                       ),
                       const SizedBox(height: 24),
-                      const Text('Detailed Breakdown', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      const Text(
+                        'Detailed Breakdown',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       const SizedBox(height: 8),
                       Expanded(
                         flex: 1,
@@ -148,13 +180,18 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                           itemBuilder: (context, index) {
                             final item = catData[index];
                             return ListTile(
-                              leading: Icon(Icons.category, color: Theme.of(context).colorScheme.primary),
+                              leading: Icon(
+                                Icons.category,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                               title: Text(item.key),
-                              trailing: Text('₹${item.value.toStringAsFixed(2)} / mo'),
+                              trailing: Text(
+                                '₹${item.value.toStringAsFixed(2)} / mo',
+                              ),
                             );
                           },
                         ),
-                      )
+                      ),
                     ],
                   ),
                 );
