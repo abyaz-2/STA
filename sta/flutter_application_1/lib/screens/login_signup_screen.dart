@@ -109,10 +109,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                 isSignUp
                     ? 'Create an account to track your subscriptions'
                     : 'Log in to your account',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),
@@ -189,9 +186,11 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(isSignUp
-                        ? 'Already have an account? '
-                        : "Don't have an account? "),
+                    Text(
+                      isSignUp
+                          ? 'Already have an account? '
+                          : "Don't have an account? ",
+                    ),
                     Text(
                       isSignUp ? 'Log In' : 'Sign Up',
                       style: const TextStyle(

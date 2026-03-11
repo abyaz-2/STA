@@ -3,7 +3,7 @@ import '../invites/invite_management_screen.dart';
 import '../invites/invite_utils.dart';
 
 /// Example: How to add Invites tab to Home Screen
-/// 
+///
 /// This file shows how to integrate the InviteManagementScreen into your
 /// HomeScreen navigation. You can use this as a guide for updating your
 /// home_screen.dart file.
@@ -12,10 +12,12 @@ class HomeScreenWithInvitesExample extends StatefulWidget {
   const HomeScreenWithInvitesExample({super.key});
 
   @override
-  State<HomeScreenWithInvitesExample> createState() => _HomeScreenWithInvitesExampleState();
+  State<HomeScreenWithInvitesExample> createState() =>
+      _HomeScreenWithInvitesExampleState();
 }
 
-class _HomeScreenWithInvitesExampleState extends State<HomeScreenWithInvitesExample> {
+class _HomeScreenWithInvitesExampleState
+    extends State<HomeScreenWithInvitesExample> {
   int _currentIndex = 0;
   int _pendingInvitesCount = 0;
 
@@ -25,7 +27,7 @@ class _HomeScreenWithInvitesExampleState extends State<HomeScreenWithInvitesExam
     // const SubscriptionListScreen(),
     // const GroupsScreen(),
     // const AnalyticsScreen(),
-    const InviteManagementScreen(),  // Add this line
+    const InviteManagementScreen(), // Add this line
   ];
 
   @override
@@ -35,7 +37,9 @@ class _HomeScreenWithInvitesExampleState extends State<HomeScreenWithInvitesExam
   }
 
   void _updateInvitesCount() async {
-    final count = await InviteUtils.getPendingInvitesCount('current_user@example.com');
+    final count = await InviteUtils.getPendingInvitesCount(
+      'current_user@example.com',
+    );
     setState(() => _pendingInvitesCount = count);
   }
 

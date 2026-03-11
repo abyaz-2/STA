@@ -12,7 +12,8 @@ class SubscriptionDetailScreen extends StatefulWidget {
   const SubscriptionDetailScreen({required this.subscription, super.key});
 
   @override
-  State<SubscriptionDetailScreen> createState() => _SubscriptionDetailScreenState();
+  State<SubscriptionDetailScreen> createState() =>
+      _SubscriptionDetailScreenState();
 }
 
 class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
@@ -29,13 +30,17 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
     super.initState();
     _subscription = widget.subscription;
     _nameController = TextEditingController(text: _subscription.name);
-    _amountController = TextEditingController(text: _subscription.amount.toString());
+    _amountController = TextEditingController(
+      text: _subscription.amount.toString(),
+    );
     _loadCategory();
   }
 
   void _loadCategory() async {
     if (_subscription.category != null) {
-      final category = await _categoryService.getCategoryById(_subscription.category!);
+      final category = await _categoryService.getCategoryById(
+        _subscription.category!,
+      );
       setState(() => _category = category);
     }
   }
@@ -61,9 +66,9 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
 
   void _save() async {
     if (_nameController.text.isEmpty || _amountController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill all fields')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please fill all fields')));
       return;
     }
 
@@ -75,9 +80,9 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
 
     await StorageService.addSubscription(updated);
     setState(() => _isEditing = false);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Subscription updated!')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Subscription updated!')));
   }
 
   @override
@@ -127,7 +132,10 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                     const SizedBox(height: 8),
                     Text(
                       _subscription.name,
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -154,7 +162,10 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                     const SizedBox(height: 8),
                     Text(
                       '\$${_subscription.amount.toStringAsFixed(2)}',
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
@@ -171,7 +182,10 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                   const SizedBox(height: 8),
                   Text(
                     _subscription.billingCycle.toUpperCase(),
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -196,7 +210,7 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                             icon: const Icon(Icons.edit),
                             label: const Text('Change'),
                             onPressed: _changeCategory,
-                          )
+                          ),
                       ],
                     )
                   else
@@ -216,7 +230,7 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                           ],
                         ),
                       ),
-                    )
+                    ),
                 ],
               ),
               const SizedBox(height: 24),
@@ -232,7 +246,10 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                   const SizedBox(height: 8),
                   Text(
                     _formatDate(_subscription.nextBillingDate),
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -245,7 +262,9 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                   const Text('Shared'),
                   Chip(
                     label: Text(_subscription.isShared ? 'Yes' : 'No'),
-                    backgroundColor: _subscription.isShared ? Colors.green.withOpacity(0.2) : Colors.grey.withOpacity(0.2),
+                    backgroundColor: _subscription.isShared
+                        ? Colors.green.withOpacity(0.2)
+                        : Colors.grey.withOpacity(0.2),
                   ),
                 ],
               ),

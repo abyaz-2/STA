@@ -34,16 +34,13 @@ class CategoryWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            _getIconData(category.icon),
-            size: 16,
-            color: color,
-          ),
+          Icon(_getIconData(category.icon), size: 16, color: color),
           const SizedBox(width: 4),
           Flexible(
             child: Text(
               category.name,
-              style: textStyle ??
+              style:
+                  textStyle ??
                   TextStyle(
                     color: color,
                     fontSize: 12,
@@ -81,11 +78,7 @@ class CategoryBadge extends StatelessWidget {
   final Category category;
   final VoidCallback? onTap;
 
-  const CategoryBadge({
-    required this.category,
-    this.onTap,
-    super.key,
-  });
+  const CategoryBadge({required this.category, this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -94,14 +87,15 @@ class CategoryBadge extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Chip(
-        avatar: Icon(
-          _getIconData(category.icon),
-          size: 16,
-          color: color,
+        avatar: Icon(_getIconData(category.icon), size: 14, color: color),
+        label: Text(
+          category.name,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
-        label: Text(category.name),
         backgroundColor: color.withOpacity(0.2),
-        labelStyle: TextStyle(color: color),
+        labelStyle: TextStyle(color: color, fontSize: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
       ),
     );
   }
@@ -130,11 +124,7 @@ class CategoryAvatar extends StatelessWidget {
   final Category category;
   final double radius;
 
-  const CategoryAvatar({
-    required this.category,
-    this.radius = 20,
-    super.key,
-  });
+  const CategoryAvatar({required this.category, this.radius = 20, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -143,10 +133,7 @@ class CategoryAvatar extends StatelessWidget {
     return CircleAvatar(
       radius: radius,
       backgroundColor: color.withOpacity(0.2),
-      child: Icon(
-        _getIconData(category.icon),
-        color: color,
-      ),
+      child: Icon(_getIconData(category.icon), color: color),
     );
   }
 

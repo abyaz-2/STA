@@ -3,12 +3,10 @@ import '../models/subscription.dart';
 import '../models/category.dart';
 import '../services/category_service.dart';
 import '../screens/subscription_detail_screen.dart';
-import '../features/categories/category_widgets.dart';
 
 class SubscriptionTile extends StatelessWidget {
   final Subscription subscription;
   final VoidCallback onDelete;
-  final CategoryService _categoryService = CategoryService();
 
   SubscriptionTile({
     super.key,
@@ -20,7 +18,7 @@ class SubscriptionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<Category?>(
       future: subscription.category != null
-          ? _categoryService.getCategoryById(subscription.category!)
+          ? CategoryService().getCategoryById(subscription.category!)
           : Future.value(null),
       builder: (context, snapshot) {
         final category = snapshot.data;
@@ -31,17 +29,39 @@ class SubscriptionTile extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => SubscriptionDetailScreen(subscription: subscription),
+                  builder: (_) =>
+                      SubscriptionDetailScreen(subscription: subscription),
                 ),
               );
             },
             title: Row(
               children: [
-                Expanded(child: Text(subscription.name)),
+                Expanded(
+                  child: Text(subscription.name),
+                ),
                 if (category != null) ...[
                   const SizedBox(width: 8),
-                  CategoryBadge(category: category),
-                ]
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Color(int.parse('0xff${category.color.substring(1)}')).withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Color(int.parse('0xff${category.color.substring(1)}')),
+                        width: 0.5,
+                      ),
+                    ),
+                    child: Text(
+                      category.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: Color(int.parse('0xff${category.color.substring(1)}')),
+                      ),
+                    ),
+                  ),
+                ],
               ],
             ),
             subtitle: Text(
@@ -53,10 +73,7 @@ class SubscriptionTile extends StatelessWidget {
             ),
             leading: Text(
               "\$${subscription.amount.toStringAsFixed(2)}",
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
           ),
         );

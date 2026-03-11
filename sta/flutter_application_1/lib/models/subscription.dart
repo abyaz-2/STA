@@ -42,7 +42,11 @@ class Subscription {
       name: map['name'],
       amount: map['amount'],
       billingCycle: map['billingCycle'],
-      nextBillingDate: DateTime.parse(map['nextBillingDate'] ?? map['nextDueDate'] ?? DateTime.now().toIso8601String()),
+      nextBillingDate: DateTime.parse(
+        map['nextBillingDate'] ??
+            map['nextDueDate'] ??
+            DateTime.now().toIso8601String(),
+      ),
       isShared: map['isShared'] ?? map['reminderEnabled'] ?? false,
       groupId: map['groupId'],
       category: map['category'],

@@ -17,9 +17,9 @@ class User {
     DateTime? createdAt,
     DateTime? lastLogin,
     this.isVerified = false,
-  })  : id = id ?? const Uuid().v4(),
-        createdAt = createdAt ?? DateTime.now(),
-        lastLogin = lastLogin ?? DateTime.now();
+  }) : id = id ?? const Uuid().v4(),
+       createdAt = createdAt ?? DateTime.now(),
+       lastLogin = lastLogin ?? DateTime.now();
 
   Map<String, dynamic> toMap() {
     return {
@@ -39,8 +39,12 @@ class User {
       email: map['email'],
       name: map['name'],
       avatar: map['avatar'],
-      createdAt: map['createdAt'] != null ? DateTime.parse(map['createdAt']) : DateTime.now(),
-      lastLogin: map['lastLogin'] != null ? DateTime.parse(map['lastLogin']) : DateTime.now(),
+      createdAt: map['createdAt'] != null
+          ? DateTime.parse(map['createdAt'])
+          : DateTime.now(),
+      lastLogin: map['lastLogin'] != null
+          ? DateTime.parse(map['lastLogin'])
+          : DateTime.now(),
       isVerified: map['isVerified'] ?? false,
     );
   }

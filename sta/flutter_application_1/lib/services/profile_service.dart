@@ -20,7 +20,7 @@ class ProfileService {
   Future<void> init() async {
     _usersBox = await Hive.openBox<Map>(_usersBoxName);
     _currentUserBox = await Hive.openBox<String>(_currentUserBoxName);
-    
+
     // Load current user if exists
     final currentUserId = _currentUserBox.get('userId');
     if (currentUserId != null) {
@@ -55,11 +55,9 @@ class ProfileService {
   }
 
   /// Login user
-  Future<User?> login({
-    required String email,
-  }) async {
+  Future<User?> login({required String email}) async {
     final user = await getUserByEmail(email);
-    
+
     if (user != null) {
       final updatedUser = user.copyWith(lastLogin: DateTime.now());
       await _usersBox.put(user.id, updatedUser.toMap());

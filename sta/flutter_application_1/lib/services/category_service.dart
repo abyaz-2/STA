@@ -15,7 +15,7 @@ class CategoryService {
 
   Future<void> init() async {
     _categoriesBox = await Hive.openBox<Map>(_categoriesBoxName);
-    
+
     // Initialize default categories if box is empty
     if (_categoriesBox.isEmpty) {
       await _initializeDefaultCategories();
@@ -109,16 +109,16 @@ class CategoryService {
   /// Get all categories (for a user + default categories)
   Future<List<Category>> getAllCategories({String? userId}) async {
     final categories = <Category>[];
-    
+
     for (var value in _categoriesBox.values) {
       final category = Category.fromMap(Map<String, dynamic>.from(value));
-      
+
       // Include default categories or categories owned by user
       if (category.isDefault || (userId != null && category.userId == userId)) {
         categories.add(category);
       }
     }
-    
+
     return categories;
   }
 
@@ -134,14 +134,14 @@ class CategoryService {
   /// Get categories by user ID
   Future<List<Category>> getCategoriesByUser(String userId) async {
     final categories = <Category>[];
-    
+
     for (var value in _categoriesBox.values) {
       final category = Category.fromMap(Map<String, dynamic>.from(value));
       if (category.userId == userId || category.isDefault) {
         categories.add(category);
       }
     }
-    
+
     return categories;
   }
 
@@ -166,45 +166,53 @@ class CategoryService {
   /// Get default categories
   Future<List<Category>> getDefaultCategories() async {
     final categories = <Category>[];
-    
+
     for (var value in _categoriesBox.values) {
       final category = Category.fromMap(Map<String, dynamic>.from(value));
       if (category.isDefault) {
         categories.add(category);
       }
     }
-    
+
     return categories;
   }
 
   /// Search categories by name
-  Future<List<Category>> searchCategories(String query, {String? userId}) async {
+  Future<List<Category>> searchCategories(
+    String query, {
+    String? userId,
+  }) async {
     final categories = <Category>[];
     final lowerQuery = query.toLowerCase();
-    
+
     for (var value in _categoriesBox.values) {
       final category = Category.fromMap(Map<String, dynamic>.from(value));
-      
+
       if (category.name.toLowerCase().contains(lowerQuery) &&
-          (category.isDefault || (userId != null && category.userId == userId))) {
+          (category.isDefault ||
+              (userId != null && category.userId == userId))) {
         categories.add(category);
       }
     }
-    
+
     return categories;
   }
 
   /// Clear all user categories (keep defaults)
   Future<void> clearUserCategories(String userId) async {
     final keysToDelete = <String>[];
-    
-    for (var entry in _categoriesBox.entries) {
-      final category = Category.fromMap(Map<String, dynamic>.from(entry.value));
-      if (category.userId == userId && !category.isDefault) {
-        keysToDelete.add(entry.key);
+
+    for (var i = 0; i < _categoriesBox.length; i++) {
+      final key = _categoriesBox.keyAt(i);
+      final value = _categoriesBox.getAt(i);
+      if (value != null) {
+        final category = Category.fromMap(Map<String, dynamic>.from(value));
+        if (category.userId == userId && !category.isDefault) {
+          keysToDelete.add(key);
+        }
       }
     }
-    
+
     for (var key in keysToDelete) {
       await _categoriesBox.delete(key);
     }

@@ -15,7 +15,8 @@ class CategorySelectionDialog extends StatefulWidget {
   });
 
   @override
-  State<CategorySelectionDialog> createState() => _CategorySelectionDialogState();
+  State<CategorySelectionDialog> createState() =>
+      _CategorySelectionDialogState();
 }
 
 class _CategorySelectionDialogState extends State<CategorySelectionDialog> {
@@ -65,16 +66,18 @@ class _CategorySelectionDialogState extends State<CategorySelectionDialog> {
                   GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: 1,
-                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 1,
+                        ),
                     itemCount: categories.length,
                     itemBuilder: (context, index) {
                       final category = categories[index];
-                      final isSelected = category.id == widget.selectedCategoryId;
+                      final isSelected =
+                          category.id == widget.selectedCategoryId;
 
                       return GestureDetector(
                         onTap: () {
@@ -83,9 +86,13 @@ class _CategorySelectionDialogState extends State<CategorySelectionDialog> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Color(int.parse('0xff${category.color.substring(1)}')).withOpacity(0.2),
+                            color: Color(
+                              int.parse('0xff${category.color.substring(1)}'),
+                            ).withOpacity(0.2),
                             border: Border.all(
-                              color: isSelected ? Colors.blue : Colors.transparent,
+                              color: isSelected
+                                  ? Colors.blue
+                                  : Colors.transparent,
                               width: 2,
                             ),
                             borderRadius: BorderRadius.circular(12),
@@ -96,7 +103,11 @@ class _CategorySelectionDialogState extends State<CategorySelectionDialog> {
                               Icon(
                                 _getIconData(category.icon),
                                 size: 28,
-                                color: Color(int.parse('0xff${category.color.substring(1)}')),
+                                color: Color(
+                                  int.parse(
+                                    '0xff${category.color.substring(1)}',
+                                  ),
+                                ),
                               ),
                               const SizedBox(height: 8),
                               Text(

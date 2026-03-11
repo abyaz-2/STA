@@ -21,7 +21,10 @@ class InviteService {
   /// Generate a unique 6-character invite code
   String _generateInviteCode() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    return List.generate(6, (index) => chars[Random().nextInt(chars.length)]).join();
+    return List.generate(
+      6,
+      (index) => chars[Random().nextInt(chars.length)],
+    ).join();
   }
 
   /// Create and send an invite
@@ -51,7 +54,9 @@ class InviteService {
     final invites = <Invite>[];
     for (var value in _invitesBox.values) {
       final invite = Invite.fromMap(Map<String, dynamic>.from(value));
-      if (invite.inviteeEmail == userEmail && invite.status == 'pending' && !invite.isExpired) {
+      if (invite.inviteeEmail == userEmail &&
+          invite.status == 'pending' &&
+          !invite.isExpired) {
         invites.add(invite);
       }
     }
@@ -59,7 +64,10 @@ class InviteService {
   }
 
   /// Get all invites sent by a specific user (for group management)
-  Future<List<Invite>> getInvitesSentByUser(String userId, {String? groupId}) async {
+  Future<List<Invite>> getInvitesSentByUser(
+    String userId, {
+    String? groupId,
+  }) async {
     final invites = <Invite>[];
     for (var value in _invitesBox.values) {
       final invite = Invite.fromMap(Map<String, dynamic>.from(value));
@@ -76,7 +84,9 @@ class InviteService {
   Future<Invite?> getInviteByCode(String code) async {
     for (var value in _invitesBox.values) {
       final invite = Invite.fromMap(Map<String, dynamic>.from(value));
-      if (invite.inviteCode == code && invite.status == 'pending' && !invite.isExpired) {
+      if (invite.inviteCode == code &&
+          invite.status == 'pending' &&
+          !invite.isExpired) {
         return invite;
       }
     }

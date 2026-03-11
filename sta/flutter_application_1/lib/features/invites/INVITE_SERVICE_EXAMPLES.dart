@@ -1,11 +1,10 @@
 /// Example Usage of the Invite Service
-/// 
+///
 /// This file demonstrates how to use the InviteService in your app.
 /// You can reference these examples for integration.
 
 import 'package:flutter/material.dart';
 import '../../services/invite_service.dart';
-import '../../models/invite.dart';
 
 class InviteServiceExamples {
   final InviteService _inviteService = InviteService();
@@ -26,7 +25,9 @@ class InviteServiceExamples {
 
   /// Example 2: Get pending invites for a user
   Future<void> example2_GetPendingInvites() async {
-    final pendingInvites = await _inviteService.getPendingInvites('user@example.com');
+    final pendingInvites = await _inviteService.getPendingInvites(
+      'user@example.com',
+    );
 
     for (var invite in pendingInvites) {
       print('${invite.groupName} from ${invite.inviterId}');
@@ -65,7 +66,9 @@ class InviteServiceExamples {
 
     print('${sentInvites.length} invites sent');
     for (var invite in sentInvites) {
-      print('  - ${invite.inviteeEmail} to ${invite.groupName} (${invite.status})');
+      print(
+        '  - ${invite.inviteeEmail} to ${invite.groupName} (${invite.status})',
+      );
     }
   }
 

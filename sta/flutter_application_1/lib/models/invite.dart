@@ -21,8 +21,8 @@ class Invite {
     this.expiresAt,
     this.status = 'pending',
     this.inviteCode,
-  })  : id = id ?? const Uuid().v4(),
-        createdAt = createdAt ?? DateTime.now();
+  }) : id = id ?? const Uuid().v4(),
+       createdAt = createdAt ?? DateTime.now();
 
   bool get isExpired => expiresAt != null && DateTime.now().isAfter(expiresAt!);
 
@@ -48,7 +48,9 @@ class Invite {
       inviterId: map['inviterId'],
       inviteeEmail: map['inviteeEmail'],
       createdAt: DateTime.parse(map['createdAt']),
-      expiresAt: map['expiresAt'] != null ? DateTime.parse(map['expiresAt']) : null,
+      expiresAt: map['expiresAt'] != null
+          ? DateTime.parse(map['expiresAt'])
+          : null,
       status: map['status'] ?? 'pending',
       inviteCode: map['inviteCode'],
     );

@@ -17,8 +17,8 @@ class Category {
     required this.userId,
     DateTime? createdAt,
     this.isDefault = false,
-  })  : id = id ?? const Uuid().v4(),
-        createdAt = createdAt ?? DateTime.now();
+  }) : id = id ?? const Uuid().v4(),
+       createdAt = createdAt ?? DateTime.now();
 
   Map<String, dynamic> toMap() {
     return {
@@ -39,7 +39,9 @@ class Category {
       color: map['color'],
       icon: map['icon'],
       userId: map['userId'],
-      createdAt: map['createdAt'] != null ? DateTime.parse(map['createdAt']) : DateTime.now(),
+      createdAt: map['createdAt'] != null
+          ? DateTime.parse(map['createdAt'])
+          : DateTime.now(),
       isDefault: map['isDefault'] ?? false,
     );
   }
@@ -65,5 +67,6 @@ class Category {
   }
 
   @override
-  String toString() => 'Category(id: $id, name: $name, color: $color, icon: $icon)';
+  String toString() =>
+      'Category(id: $id, name: $name, color: $color, icon: $icon)';
 }

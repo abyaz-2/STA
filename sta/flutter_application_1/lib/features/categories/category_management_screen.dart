@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/category.dart';
 import '../../services/category_service.dart';
+import '../../services/profile_service.dart';
 
 class CategoryManagementScreen extends StatefulWidget {
   const CategoryManagementScreen({super.key});
@@ -20,8 +21,10 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
   }
 
   void _loadCategories() {
+    final currentUser = ProfileService().getCurrentUser();
+    final userId = currentUser?.id;
     setState(() {
-      _categories = _categoryService.getAllCategories(userId: 'current_user');
+      _categories = _categoryService.getAllCategories(userId: userId);
     });
   }
 
@@ -72,8 +75,8 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                           .toList(),
                     ),
                   ],
-                );
-              },
+                ),
+              ),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
@@ -82,11 +85,13 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     if (nameController.text.isNotEmpty) {
+                      final currentUser = ProfileService().getCurrentUser();
+                      final userId = currentUser?.id ?? 'system';
                       await _categoryService.createCategory(
                         name: nameController.text,
                         color: selectedColor,
                         icon: selectedIcon,
-                        userId: 'current_user',
+                        userId: userId,
                       );
                       _loadCategories();
                       Navigator.pop(context);

@@ -32,7 +32,13 @@ class _GroupsScreenState extends State<GroupsScreen> {
               onPressed: () {
                 if (controller.text.isNotEmpty) {
                   setState(() {
-                    _groups.add(Group(ownerId: 'mock_user123', name: controller.text, memberIds: ['mock_user123']));
+                    _groups.add(
+                      Group(
+                        ownerId: 'mock_user123',
+                        name: controller.text,
+                        memberIds: ['mock_user123'],
+                      ),
+                    );
                   });
                 }
                 Navigator.pop(context);
@@ -55,13 +61,24 @@ class _GroupsScreenState extends State<GroupsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(group.name, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              Text(
+                group.name,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 16),
-              const Text('Members:', style: TextStyle(fontWeight: FontWeight.bold)),
-              ...group.memberIds.map((id) => ListTile(
-                    leading: const CircleAvatar(child: Icon(Icons.person)),
-                    title: Text(id == 'mock_user123' ? 'You' : id),
-                  )),
+              const Text(
+                'Members:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              ...group.memberIds.map(
+                (id) => ListTile(
+                  leading: const CircleAvatar(child: Icon(Icons.person)),
+                  title: Text(id == 'mock_user123' ? 'You' : id),
+                ),
+              ),
               const SizedBox(height: 16),
               ElevatedButton.icon(
                 icon: const Icon(Icons.person_add),
@@ -77,7 +94,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
                     ),
                   );
                 },
-              )
+              ),
             ],
           ),
         );

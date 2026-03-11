@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../models/subscription.dart';
 import '../../services/storage_service.dart';
+import '../../services/category_service.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -12,11 +13,25 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   List<Subscription> subscriptions = [];
+  Map<String, String> categoryIdToName = {}; // id -> name mapping
 
   @override
   void initState() {
     super.initState();
     loadSubscriptions();
+    loadCategoryNames();
+  }
+
+  void loadCategoryNames() async {
+    final categoryService = CategoryService();
+    final categories = await categoryService.getAllCategories();
+    final mapping = <String, String>{};
+    for (var cat in categories) {
+      mapping[cat.id] = cat.name;
+    }
+    setState(() {
+      categoryIdToName = mapping;
+    });
   }
 
   void loadSubscriptions() {
@@ -47,9 +62,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Map<String, double> get categorySpend {
     Map<String, double> map = {};
     for (var sub in subscriptions) {
-      final cat = sub.category ?? 'Other';
-      final current = map[cat] ?? 0;
-      map[cat] = current + (sub.billingCycle.toLowerCase() == 'monthly' ? sub.amount : sub.amount / 12);
+      final catId = sub.category ?? 'Other';
+      final catName = categoryIdToName[catId] ?? 'Other';
+      final current = map[catName] ?? 0;
+      map[catName] = current + (sub.billingCycle.toLowerCase() == 'monthly' ? sub.amount : sub.amount / 12);
     }
     return map;
   }

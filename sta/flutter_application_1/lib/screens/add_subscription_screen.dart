@@ -4,7 +4,6 @@ import '../models/subscription.dart';
 import '../models/category.dart';
 import '../services/storage_service.dart';
 import '../services/notification_service.dart';
-import '../services/category_service.dart';
 import '../features/categories/category_selection_dialog.dart';
 import '../features/categories/category_widgets.dart';
 
@@ -12,8 +11,7 @@ class AddSubscriptionScreen extends StatefulWidget {
   const AddSubscriptionScreen({super.key});
 
   @override
-  State<AddSubscriptionScreen> createState() =>
-      _AddSubscriptionScreenState();
+  State<AddSubscriptionScreen> createState() => _AddSubscriptionScreenState();
 }
 
 class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
@@ -24,7 +22,6 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
   bool isShared = false;
   String? selectedCategoryId;
   Category? selectedCategory;
-  final CategoryService _categoryService = CategoryService();
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +162,10 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
                   await NotificationService.scheduleRenewalReminder(sub);
                   Navigator.pop(context);
                 },
-                child: const Text("Save Subscription", style: TextStyle(fontSize: 16)),
+                child: const Text(
+                  "Save Subscription",
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
             ],
           ),

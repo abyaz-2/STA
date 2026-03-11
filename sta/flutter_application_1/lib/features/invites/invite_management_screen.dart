@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/invite.dart';
 import '../../services/invite_service.dart';
-import '../../models/group.dart';
-import '../../services/storage_service.dart';
 
 class InviteManagementScreen extends StatefulWidget {
   const InviteManagementScreen({super.key});
@@ -23,7 +21,9 @@ class _InviteManagementScreenState extends State<InviteManagementScreen> {
 
   void _loadPendingInvites() {
     setState(() {
-      _pendingInvites = _inviteService.getPendingInvites('current_user@example.com');
+      _pendingInvites = _inviteService.getPendingInvites(
+        'current_user@example.com',
+      );
     });
   }
 
@@ -34,38 +34,36 @@ class _InviteManagementScreenState extends State<InviteManagementScreen> {
 
       // Add user to the group
       // You would need to implement this in your group management logic
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Joined ${invite.groupName}!')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Joined ${invite.groupName}!')));
 
       _loadPendingInvites();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error accepting invite: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error accepting invite: $e')));
     }
   }
 
   Future<void> _rejectInvite(Invite invite) async {
     try {
       await _inviteService.rejectInvite(invite.id);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Invite rejected')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Invite rejected')));
       _loadPendingInvites();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error rejecting invite: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error rejecting invite: $e')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Invitations'),
-      ),
+      appBar: AppBar(title: const Text('My Invitations')),
       body: FutureBuilder<List<Invite>>(
         future: _pendingInvites,
         builder: (context, snapshot) {
@@ -74,17 +72,13 @@ class _InviteManagementScreenState extends State<InviteManagementScreen> {
           }
 
           if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
+            return Center(child: Text('Error: ${snapshot.error}'));
           }
 
           final invites = snapshot.data ?? [];
 
           if (invites.isEmpty) {
-            return const Center(
-              child: Text('No pending invitations'),
-            );
+            return const Center(child: Text('No pending invitations'));
           }
 
           return ListView.builder(
@@ -95,9 +89,7 @@ class _InviteManagementScreenState extends State<InviteManagementScreen> {
               return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: ListTile(
-                  leading: const CircleAvatar(
-                    child: Icon(Icons.mail_outline),
-                  ),
+                  leading: const CircleAvatar(child: Icon(Icons.mail_outline)),
                   title: Text(invite.groupName),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +101,10 @@ class _InviteManagementScreenState extends State<InviteManagementScreen> {
                       ),
                       Text(
                         'Code: ${invite.inviteCode}',
-                        style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'monospace',
+                        ),
                       ),
                     ],
                   ),
@@ -124,7 +119,11 @@ class _InviteManagementScreenState extends State<InviteManagementScreen> {
                           tooltip: 'Reject',
                         ),
                         IconButton(
-                          icon: const Icon(Icons.check, size: 20, color: Colors.green),
+                          icon: const Icon(
+                            Icons.check,
+                            size: 20,
+                            color: Colors.green,
+                          ),
                           onPressed: () => _acceptInvite(invite),
                           tooltip: 'Accept',
                         ),

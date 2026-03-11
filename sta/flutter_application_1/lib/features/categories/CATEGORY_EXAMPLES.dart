@@ -1,5 +1,5 @@
 /// Example implementations of the Categories feature
-/// 
+///
 /// This file shows practical examples of how to use the category system
 /// in your subscription management app.
 
@@ -16,10 +16,12 @@ class SubscriptionFormWithCategoryExample extends StatefulWidget {
   const SubscriptionFormWithCategoryExample({super.key});
 
   @override
-  State<SubscriptionFormWithCategoryExample> createState() => _SubscriptionFormExampleState();
+  State<SubscriptionFormWithCategoryExample> createState() =>
+      _SubscriptionFormExampleState();
 }
 
-class _SubscriptionFormExampleState extends State<SubscriptionFormWithCategoryExample> {
+class _SubscriptionFormExampleState
+    extends State<SubscriptionFormWithCategoryExample> {
   String? _selectedCategoryId;
   Category? _selectedCategory;
 
@@ -50,7 +52,7 @@ class _SubscriptionFormExampleState extends State<SubscriptionFormWithCategoryEx
         if (_selectedCategory != null) ...[
           const SizedBox(height: 16),
           CategoryWidget(category: _selectedCategory!),
-        ]
+        ],
       ],
     );
   }
@@ -61,7 +63,9 @@ class SubscriptionsByCategoryExample {
   final CategoryService _categoryService = CategoryService();
 
   /// Get all subscriptions filtered by category
-  Future<List<Subscription>> getSubscriptionsByCategory(String categoryId) async {
+  Future<List<Subscription>> getSubscriptionsByCategory(
+    String categoryId,
+  ) async {
     final allSubscriptions = StorageService.getSubscriptions();
     return allSubscriptions.where((sub) => sub.category == categoryId).toList();
   }
@@ -91,7 +95,8 @@ class SubscriptionsGroupedByCategoryExample {
   final CategoryService _categoryService = CategoryService();
 
   /// Group subscriptions by category
-  Future<Map<Category, List<Subscription>>> groupSubscriptionsByCategory() async {
+  Future<Map<Category, List<Subscription>>>
+  groupSubscriptionsByCategory() async {
     final allSubscriptions = StorageService.getSubscriptions();
     final groups = <Category, List<Subscription>>{};
 
@@ -100,7 +105,9 @@ class SubscriptionsGroupedByCategoryExample {
 
     // Group subscriptions
     for (var category in categories) {
-      final subs = allSubscriptions.where((sub) => sub.category == category.id).toList();
+      final subs = allSubscriptions
+          .where((sub) => sub.category == category.id)
+          .toList();
       if (subs.isNotEmpty) {
         groups[category] = subs;
       }
@@ -126,10 +133,12 @@ class SubscriptionsGroupedByCategoryExample {
               title: Text(category.name),
               subtitle: Text('${subscriptions.length} subscriptions'),
               children: subscriptions
-                  .map((sub) => ListTile(
-                        title: Text(sub.name),
-                        subtitle: Text('\$${sub.amount}/${sub.billingCycle}'),
-                      ))
+                  .map(
+                    (sub) => ListTile(
+                      title: Text(sub.name),
+                      subtitle: Text('\$${sub.amount}/${sub.billingCycle}'),
+                    ),
+                  )
                   .toList(),
             );
           }).toList(),
@@ -141,8 +150,6 @@ class SubscriptionsGroupedByCategoryExample {
 
 /// Example 4: Category Statistics
 class CategoryStatisticsExample {
-  final CategoryService _categoryService = CategoryService();
-
   /// Get category usage statistics
   Future<Map<String, int>> getCategoryUsageStats() async {
     final allSubscriptions = StorageService.getSubscriptions();
@@ -163,10 +170,12 @@ class CategoryStatisticsExample {
 
     for (var sub in allSubscriptions) {
       final categoryId = sub.category ?? 'Uncategorized';
-      categoryTotals[categoryId] = (categoryTotals[categoryId] ?? 0) + sub.amount;
+      categoryTotals[categoryId] =
+          (categoryTotals[categoryId] ?? 0) + sub.amount;
     }
 
-    final sorted = categoryTotals.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+    final sorted = categoryTotals.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
     return sorted.map((e) => (e.key, e.value)).toList();
   }
 }
@@ -176,7 +185,10 @@ class CategorySearchExample {
   final CategoryService _categoryService = CategoryService();
 
   Future<void> searchAndDisplay(String query) async {
-    final results = await _categoryService.searchCategories(query, userId: 'current_user');
+    final results = await _categoryService.searchCategories(
+      query,
+      userId: 'current_user',
+    );
 
     for (var category in results) {
       print('Found: ${category.name} - ${category.icon}');
@@ -213,9 +225,14 @@ class BulkCategoryOperationsExample {
   }
 
   /// Migrate subscriptions to new category
-  Future<void> migrateCategorySubscriptions(String oldCategoryId, String newCategoryId) async {
+  Future<void> migrateCategorySubscriptions(
+    String oldCategoryId,
+    String newCategoryId,
+  ) async {
     final allSubscriptions = StorageService.getSubscriptions();
-    final toMigrate = allSubscriptions.where((sub) => sub.category == oldCategoryId).toList();
+    final toMigrate = allSubscriptions
+        .where((sub) => sub.category == oldCategoryId)
+        .toList();
 
     for (var sub in toMigrate) {
       // Note: Subscription.copyWith or similar needed

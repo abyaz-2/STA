@@ -58,9 +58,9 @@ class _SendInviteDialogState extends State<SendInviteDialog> {
       );
     } catch (e) {
       setState(() => _isLoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error sending invite: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error sending invite: $e')));
     }
   }
 
@@ -150,7 +150,11 @@ class _SendInviteDialogState extends State<SendInviteDialog> {
                           color: Colors.grey[800],
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: SelectableText(_inviteService.generateDeepLink(_sentInvite!.inviteCode ?? '')),
+                        child: SelectableText(
+                          _inviteService.generateDeepLink(
+                            _sentInvite!.inviteCode ?? '',
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 12),
                       const Text(
@@ -178,7 +182,7 @@ class _SendInviteDialogState extends State<SendInviteDialog> {
                     ),
                   ],
                 ),
-              ]
+              ],
             ],
           ),
         ),

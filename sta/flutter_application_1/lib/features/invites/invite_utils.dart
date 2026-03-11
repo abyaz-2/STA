@@ -18,9 +18,11 @@ class InviteUtils {
   }
 
   /// Get all invites with their expiry status
-  static Future<Map<String, List<Invite>>> getCategorizedInvites(String userEmail) async {
+  static Future<Map<String, List<Invite>>> getCategorizedInvites(
+    String userEmail,
+  ) async {
     final allInvites = await _service.getPendingInvites(userEmail);
-    
+
     return {
       'active': allInvites.where((i) => !i.isExpired).toList(),
       'expired': allInvites.where((i) => i.isExpired).toList(),
@@ -31,9 +33,9 @@ class InviteUtils {
   static Future<void> copyInviteCode(BuildContext context, String code) async {
     // Note: You'll need to add flutter/services to pubspec.yaml
     // await Clipboard.setData(ClipboardData(text: code));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Copied: $code')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('Copied: $code')));
   }
 
   /// Build invite status badge
@@ -68,7 +70,11 @@ class InviteUtils {
       ),
       child: Text(
         label,
-        style: TextStyle(color: textColor, fontSize: 12, fontWeight: FontWeight.w600),
+        style: TextStyle(
+          color: textColor,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -76,7 +82,7 @@ class InviteUtils {
   /// Format invite expiry date
   static String formatExpiryDate(DateTime? expiresAt) {
     if (expiresAt == null) return 'No expiry';
-    
+
     final now = DateTime.now();
     final difference = expiresAt.difference(now);
 
