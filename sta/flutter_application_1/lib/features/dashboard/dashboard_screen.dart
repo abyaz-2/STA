@@ -56,7 +56,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final now = DateTime.now();
     final sorted = List<Subscription>.from(subscriptions);
     sorted.sort((a, b) => a.nextBillingDate.compareTo(b.nextBillingDate));
-    return sorted.where((sub) => sub.nextBillingDate.isAfter(now) || sub.nextBillingDate.isAtSameMomentAs(now)).take(5).toList();
+    return sorted
+        .where(
+          (sub) =>
+              sub.nextBillingDate.isAfter(now) ||
+              sub.nextBillingDate.isAtSameMomentAs(now),
+        )
+        .take(5)
+        .toList();
   }
 
   Map<String, double> get categorySpend {
@@ -65,7 +72,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       final catId = sub.category ?? 'Other';
       final catName = categoryIdToName[catId] ?? 'Other';
       final current = map[catName] ?? 0;
-      map[catName] = current + (sub.billingCycle.toLowerCase() == 'monthly' ? sub.amount : sub.amount / 12);
+      map[catName] =
+          current +
+          (sub.billingCycle.toLowerCase() == 'monthly'
+              ? sub.amount
+              : sub.amount / 12);
     }
     return map;
   }
@@ -96,21 +107,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     const SizedBox(height: 8),
                     Text(
                       "₹${mTotal.toStringAsFixed(2)}",
-                      style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       "Yearly Projection: ₹${(mTotal * 12).toStringAsFixed(2)}",
-                      style: const TextStyle(fontSize: 14, color: Colors.black54),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black54,
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 24),
-            
+
             // Pie Chart for Categories
-            const Text("Category Split", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text(
+              "Category Split",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 16),
             SizedBox(
               height: 200,
@@ -125,13 +145,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
             const SizedBox(height: 24),
 
             // Upcoming Renewals
-            const Text("Upcoming Renewals", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text(
+              "Upcoming Renewals",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8),
             ...upcomingRenewals.map((sub) {
               return Card(
                 child: ListTile(
                   title: Text(sub.name),
-                  subtitle: Text("Due: ${sub.nextBillingDate.toLocal().toString().split(' ')[0]}"),
+                  subtitle: Text(
+                    "Due: ${sub.nextBillingDate.toLocal().toString().split(' ')[0]}",
+                  ),
                   trailing: Text("₹${sub.amount.toStringAsFixed(2)}"),
                 ),
               );
@@ -145,10 +170,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   List<PieChartSectionData> _buildPieSections() {
-    final colors = [Colors.indigo, Colors.teal, Colors.amber, Colors.deepOrange, Colors.purple];
+    final colors = [
+      Colors.indigo,
+      Colors.teal,
+      Colors.amber,
+      Colors.deepOrange,
+      Colors.purple,
+    ];
     final map = categorySpend;
     int index = 0;
-    
+
     return map.entries.map((e) {
       final color = colors[index % colors.length];
       index++;
@@ -157,7 +188,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
         title: e.key,
         color: color,
         radius: 50,
-        titleStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+        titleStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       );
     }).toList();
   }

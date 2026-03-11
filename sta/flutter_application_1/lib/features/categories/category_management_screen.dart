@@ -7,7 +7,8 @@ class CategoryManagementScreen extends StatefulWidget {
   const CategoryManagementScreen({super.key});
 
   @override
-  State<CategoryManagementScreen> createState() => _CategoryManagementScreenState();
+  State<CategoryManagementScreen> createState() =>
+      _CategoryManagementScreenState();
 }
 
 class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
@@ -56,23 +57,40 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                     const SizedBox(height: 8),
                     Wrap(
                       spacing: 8,
-                      children: ['#FF5733', '#33FF57', '#3357FF', '#FF33F5', '#F5FF33', '#33FFF5', '#FF8C33', '#8C33FF']
-                          .map((color) => GestureDetector(
-                                onTap: () => setState(() => selectedColor = color),
-                                child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: Color(int.parse('0xff${color.substring(1)}')),
-                                    border: Border.all(
-                                      color: selectedColor == color ? Colors.white : Colors.transparent,
-                                      width: 2,
+                      children:
+                          [
+                                '#FF5733',
+                                '#33FF57',
+                                '#3357FF',
+                                '#FF33F5',
+                                '#F5FF33',
+                                '#33FFF5',
+                                '#FF8C33',
+                                '#8C33FF',
+                              ]
+                              .map(
+                                (color) => GestureDetector(
+                                  onTap: () =>
+                                      setState(() => selectedColor = color),
+                                  child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: Color(
+                                        int.parse('0xff${color.substring(1)}'),
+                                      ),
+                                      border: Border.all(
+                                        color: selectedColor == color
+                                            ? Colors.white
+                                            : Colors.transparent,
+                                        width: 2,
+                                      ),
+                                      shape: BoxShape.circle,
                                     ),
-                                    shape: BoxShape.circle,
                                   ),
                                 ),
-                              ))
-                          .toList(),
+                              )
+                              .toList(),
                     ),
                   ],
                 ),
@@ -114,9 +132,9 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
     final success = await _categoryService.deleteCategory(categoryId);
     if (success) {
       _loadCategories();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Category deleted')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Category deleted')));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Cannot delete default category')),
@@ -127,9 +145,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Manage Categories'),
-      ),
+      appBar: AppBar(title: const Text('Manage Categories')),
       body: FutureBuilder<List<Category>>(
         future: _categories,
         builder: (context, snapshot) {
@@ -142,8 +158,12 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
           }
 
           final categories = snapshot.data ?? [];
-          final defaultCategories = categories.where((c) => c.isDefault).toList();
-          final customCategories = categories.where((c) => !c.isDefault).toList();
+          final defaultCategories = categories
+              .where((c) => c.isDefault)
+              .toList();
+          final customCategories = categories
+              .where((c) => !c.isDefault)
+              .toList();
 
           return ListView(
             children: [
@@ -155,7 +175,9 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
-                ...defaultCategories.map((category) => _buildCategoryTile(category, isDefault: true)),
+                ...defaultCategories.map(
+                  (category) => _buildCategoryTile(category, isDefault: true),
+                ),
               ],
               if (customCategories.isNotEmpty) ...[
                 Padding(
@@ -165,7 +187,9 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
-                ...customCategories.map((category) => _buildCategoryTile(category, isDefault: false)),
+                ...customCategories.map(
+                  (category) => _buildCategoryTile(category, isDefault: false),
+                ),
               ],
               if (categories.isEmpty)
                 const Center(
@@ -193,7 +217,9 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: Color(int.parse('0xff${category.color.substring(1)}')).withOpacity(0.2),
+            color: Color(
+              int.parse('0xff${category.color.substring(1)}'),
+            ).withOpacity(0.2),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(

@@ -36,18 +36,23 @@ class SubscriptionTile extends StatelessWidget {
             },
             title: Row(
               children: [
-                Expanded(
-                  child: Text(subscription.name),
-                ),
+                Expanded(child: Text(subscription.name)),
                 if (category != null) ...[
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
-                      color: Color(int.parse('0xff${category.color.substring(1)}')).withOpacity(0.2),
+                      color: Color(
+                        int.parse('0xff${category.color.substring(1)}'),
+                      ).withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: Color(int.parse('0xff${category.color.substring(1)}')),
+                        color: Color(
+                          int.parse('0xff${category.color.substring(1)}'),
+                        ),
                         width: 0.5,
                       ),
                     ),
@@ -57,7 +62,9 @@ class SubscriptionTile extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 11,
-                        color: Color(int.parse('0xff${category.color.substring(1)}')),
+                        color: Color(
+                          int.parse('0xff${category.color.substring(1)}'),
+                        ),
                       ),
                     ),
                   ),
