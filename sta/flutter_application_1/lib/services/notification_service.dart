@@ -117,6 +117,40 @@ class NotificationService {
     }
   }
 
+  // ─── Test Notification ──────────────────────────────────────────────────
+
+  /// Sends an immediate test notification to verify notifications work.
+  static Future<void> sendTestNotification(Subscription sub) async {
+    const notifId = 999999;
+    const title = '✅ Test: Reminder System Active';
+    final body =
+        '${sub.name} was added with reminders ${sub.reminderDaysBefore} day(s) before. Scheduled notifications will arrive at 9 AM on each reminder day.';
+
+    await _plugin.show(
+      notifId,
+      title,
+      body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          _channelId,
+          _channelName,
+          channelDescription: _channelDesc,
+          importance: Importance.high,
+          priority: Priority.high,
+          icon: '@mipmap/ic_launcher',
+          styleInformation: BigTextStyleInformation(body),
+        ),
+        iOS: const DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+        ),
+      ),
+    );
+
+    debugPrint('[NotificationService] Test notification sent for ${sub.name}');
+  }
+
   // ─── Cancel ──────────────────────────────────────────────────────────────
 
   /// Cancels all reminder notifications for a given subscription [id].

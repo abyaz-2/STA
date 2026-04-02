@@ -224,6 +224,7 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
 
                   await StorageService.addSubscription(sub);
                   await NotificationService.scheduleRenewalReminder(sub);
+                  await NotificationService.sendTestNotification(sub);
 
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
