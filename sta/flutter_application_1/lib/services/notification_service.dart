@@ -22,23 +22,27 @@ class NotificationService {
   static Future<void> init() async {
     tzData.initializeTimeZones();
 
-    const androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings = AndroidInitializationSettings(
+      '@mipmap/ic_launcher',
+    );
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
     );
 
-    const initSettings =
-        InitializationSettings(android: androidSettings, iOS: iosSettings);
+    const initSettings = InitializationSettings(
+      android: androidSettings,
+      iOS: iosSettings,
+    );
 
     await _plugin.initialize(initSettings);
 
     // Ask for POST_NOTIFICATIONS permission on Android 13+
     await _plugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.requestNotificationsPermission();
   }
 
@@ -112,8 +116,9 @@ class NotificationService {
       );
 
       debugPrint(
-          '[NotificationService] Scheduled "${ sub.name}" reminder: '
-          '$offsetDays day(s) before (fires $reminderDate)');
+        '[NotificationService] Scheduled "${sub.name}" reminder: '
+        '$offsetDays day(s) before (fires $reminderDate)',
+      );
     }
   }
 
@@ -179,4 +184,3 @@ class NotificationService {
     return '$amtStr will be charged in $days days ($dueStr). Time to review your subscription.';
   }
 }
-
