@@ -52,13 +52,13 @@ class _GroupsScreenState extends State<GroupsScreen> {
                 if (controller.text.isNotEmpty) {
                   final currentUser = ProfileService().getCurrentUser();
                   final userId = currentUser?.id ?? 'mock_user123';
-                  
+
                   final newGroup = Group(
                     ownerId: userId,
                     name: controller.text,
                     memberIds: [userId],
                   );
-                  
+
                   await StorageService.addGroup(newGroup);
                   _loadGroups();
                 }

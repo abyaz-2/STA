@@ -80,8 +80,10 @@ class MyApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
             borderSide: const BorderSide(color: seedColor, width: 2),
           ),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14,
+          ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(

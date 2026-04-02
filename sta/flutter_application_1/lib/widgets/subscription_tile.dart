@@ -51,7 +51,14 @@ class SubscriptionTile extends StatelessWidget {
           children: [
             Icon(Icons.delete_outline, color: Colors.white, size: 26),
             SizedBox(height: 4),
-            Text('Delete', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600)),
+            Text(
+              'Delete',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ],
         ),
       ),
@@ -60,7 +67,8 @@ class SubscriptionTile extends StatelessWidget {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => SubscriptionDetailScreen(subscription: subscription),
+            builder: (_) =>
+                SubscriptionDetailScreen(subscription: subscription),
           ),
         ),
         child: Container(
@@ -121,7 +129,10 @@ class SubscriptionTile extends StatelessWidget {
                         if (subscription.isShared) ...[
                           const SizedBox(width: 6),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 2,
+                            ),
                             decoration: BoxDecoration(
                               color: _kAccent.withValues(alpha: 0.12),
                               borderRadius: BorderRadius.circular(8),
@@ -156,14 +167,21 @@ class SubscriptionTile extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFEEEEEE),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
                             subscription.billingCycle.toUpperCase(),
-                            style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: Color(0xFF666666)),
+                            style: const TextStyle(
+                              fontSize: 9,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF666666),
+                            ),
                           ),
                         ),
                       ],
@@ -185,7 +203,10 @@ class SubscriptionTile extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: isUrgent
                           ? Colors.red.withValues(alpha: 0.1)
@@ -196,8 +217,8 @@ class SubscriptionTile extends StatelessWidget {
                       days < 0
                           ? 'Overdue'
                           : days == 0
-                              ? 'Today'
-                              : '$days days',
+                          ? 'Today'
+                          : '$days days',
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,

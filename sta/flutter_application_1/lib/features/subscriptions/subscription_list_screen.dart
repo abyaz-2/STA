@@ -32,7 +32,11 @@ class _SubscriptionListScreenState extends State<SubscriptionListScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text("My Subscriptions")),
       body: subscriptions.isEmpty
-          ? const Center(child: Text("No subscriptions yet.\nAdd one to track your spending!"))
+          ? const Center(
+              child: Text(
+                "No subscriptions yet.\nAdd one to track your spending!",
+              ),
+            )
           : ListView.builder(
               itemCount: subscriptions.length,
               itemBuilder: (context, index) {

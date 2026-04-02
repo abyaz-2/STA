@@ -43,7 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () async {
                 await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const AddSubscriptionScreen()),
+                  MaterialPageRoute(
+                    builder: (_) => const AddSubscriptionScreen(),
+                  ),
                 );
                 setState(() {}); // Refresh to show new subscription
               },
@@ -67,15 +69,52 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _NavItem(icon: Icons.home_outlined, activeIcon: Icons.home_rounded, label: 'Home',     index: 0, currentIndex: _currentIndex, onTap: _setIndex, accent: _accent),
-                _NavItem(icon: Icons.receipt_long_outlined, activeIcon: Icons.receipt_long, label: 'Subs',      index: 1, currentIndex: _currentIndex, onTap: _setIndex, accent: _accent),
-                _NavItem(icon: Icons.group_outlined,   activeIcon: Icons.group,        label: 'Groups',   index: 2, currentIndex: _currentIndex, onTap: _setIndex, accent: _accent),
-                _NavItem(icon: Icons.bar_chart_outlined, activeIcon: Icons.bar_chart,  label: 'Analytics', index: 3, currentIndex: _currentIndex, onTap: _setIndex, accent: _accent),
+                _NavItem(
+                  icon: Icons.home_outlined,
+                  activeIcon: Icons.home_rounded,
+                  label: 'Home',
+                  index: 0,
+                  currentIndex: _currentIndex,
+                  onTap: _setIndex,
+                  accent: _accent,
+                ),
+                _NavItem(
+                  icon: Icons.receipt_long_outlined,
+                  activeIcon: Icons.receipt_long,
+                  label: 'Subs',
+                  index: 1,
+                  currentIndex: _currentIndex,
+                  onTap: _setIndex,
+                  accent: _accent,
+                ),
+                _NavItem(
+                  icon: Icons.group_outlined,
+                  activeIcon: Icons.group,
+                  label: 'Groups',
+                  index: 2,
+                  currentIndex: _currentIndex,
+                  onTap: _setIndex,
+                  accent: _accent,
+                ),
+                _NavItem(
+                  icon: Icons.bar_chart_outlined,
+                  activeIcon: Icons.bar_chart,
+                  label: 'Analytics',
+                  index: 3,
+                  currentIndex: _currentIndex,
+                  onTap: _setIndex,
+                  accent: _accent,
+                ),
                 // Avatar nav item
                 GestureDetector(
                   onTap: () {
                     if (user != null) {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileScreen(user: user)));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ProfileScreen(user: user),
+                        ),
+                      );
                     }
                   },
                   child: Column(
@@ -86,11 +125,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         backgroundColor: _accent,
                         child: Text(
                           user != null ? user.name[0].toUpperCase() : '?',
-                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 3),
-                      const Text('Profile', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF888888))),
+                      const Text(
+                        'Profile',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF888888),
+                        ),
+                      ),
                     ],
                   ),
                 ),

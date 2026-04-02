@@ -169,7 +169,10 @@ class _HeroCard extends StatelessWidget {
               ),
               const Spacer(),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white24,
                   borderRadius: BorderRadius.circular(20),
@@ -231,11 +234,15 @@ class _UpcomingTab extends StatelessWidget {
           children: [
             Icon(Icons.check_circle_outline, size: 56, color: _kAccent),
             SizedBox(height: 12),
-            Text('No upcoming renewals 🎉',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            Text(
+              'No upcoming renewals 🎉',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
             SizedBox(height: 4),
-            Text('Add subscriptions to track them.',
-                style: TextStyle(color: Colors.grey)),
+            Text(
+              'Add subscriptions to track them.',
+              style: TextStyle(color: Colors.grey),
+            ),
           ],
         ),
       );
@@ -311,9 +318,11 @@ class _RenewalCard extends StatelessWidget {
                 const SizedBox(height: 3),
                 Row(
                   children: [
-                    Icon(Icons.calendar_today_outlined,
-                        size: 12,
-                        color: isUrgent ? Colors.red : Colors.grey),
+                    Icon(
+                      Icons.calendar_today_outlined,
+                      size: 12,
+                      color: isUrgent ? Colors.red : Colors.grey,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       '${sub.nextBillingDate.day}/${sub.nextBillingDate.month}/${sub.nextBillingDate.year}',
@@ -374,7 +383,8 @@ class _CategoriesTab extends StatelessWidget {
     final map = <String, double>{};
     for (var sub in subscriptions) {
       final cat = sub.category ?? 'Other';
-      map[cat] = (map[cat] ?? 0) +
+      map[cat] =
+          (map[cat] ?? 0) +
           (sub.billingCycle.toLowerCase() == 'monthly'
               ? sub.amount
               : sub.amount / 12);
@@ -436,8 +446,10 @@ class _CategoriesTab extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                   ),
-                  title: Text(data[i].key,
-                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                  title: Text(
+                    data[i].key,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
                   trailing: Text(
                     '₹${data[i].value.toStringAsFixed(0)}/mo',
                     style: const TextStyle(
@@ -461,8 +473,11 @@ class _PillTab extends StatelessWidget {
   final TabController controller;
   final int index;
 
-  const _PillTab(
-      {required this.label, required this.controller, required this.index});
+  const _PillTab({
+    required this.label,
+    required this.controller,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {

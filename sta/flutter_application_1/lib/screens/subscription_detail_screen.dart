@@ -93,8 +93,9 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           ElevatedButton(
             onPressed: () {
               final v = double.tryParse(ctrl.text);
@@ -125,8 +126,18 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
 
   String _formatDate(DateTime d) {
     const m = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${m[d.month - 1]} ${d.day}, ${d.year}';
   }
@@ -177,28 +188,33 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                           label: 'Frequency',
                           trailing: GestureDetector(
                             onTap: () async {
-                              final result =
-                                  await showModalBottomSheet<String>(
+                              final result = await showModalBottomSheet<String>(
                                 context: context,
                                 shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(20)),
+                                    top: Radius.circular(20),
+                                  ),
                                 ),
-                                builder: (_) =>
-                                    _BillingCyclePicker(current: _sub.billingCycle),
+                                builder: (_) => _BillingCyclePicker(
+                                  current: _sub.billingCycle,
+                                ),
                               );
                               if (result != null) {
                                 setState(
-                                    () => _sub = _sub.copyWith(billingCycle: result));
+                                  () => _sub = _sub.copyWith(
+                                    billingCycle: result,
+                                  ),
+                                );
                               }
                             },
                             child: Text(
                               _sub.billingCycle[0].toUpperCase() +
                                   _sub.billingCycle.substring(1),
                               style: const TextStyle(
-                                  color: _kBlue,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
+                                color: _kBlue,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                         ),
@@ -210,9 +226,10 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                             child: Text(
                               _formatDate(_sub.nextBillingDate),
                               style: const TextStyle(
-                                  color: _kBlue,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
+                                color: _kBlue,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                         ),
@@ -224,7 +241,8 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                             min: 1,
                             max: 7,
                             onChanged: (v) => setState(
-                                () => _sub = _sub.copyWith(reminderDaysBefore: v)),
+                              () => _sub = _sub.copyWith(reminderDaysBefore: v),
+                            ),
                           ),
                         ),
                         _div(),
@@ -233,9 +251,10 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                           trailing: Text(
                             _monthsText(),
                             style: const TextStyle(
-                                color: _kBlue,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15),
+                              color: _kBlue,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                            ),
                           ),
                         ),
                       ],
@@ -254,8 +273,7 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                         final m = _payMethods[i];
                         final sel = _selectedPayMethod == i;
                         return GestureDetector(
-                          onTap: () =>
-                              setState(() => _selectedPayMethod = i),
+                          onTap: () => setState(() => _selectedPayMethod = i),
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 180),
                             margin: const EdgeInsets.all(5),
@@ -279,9 +297,7 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                                   style: TextStyle(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w600,
-                                    color: sel
-                                        ? m.color
-                                        : Colors.grey.shade600,
+                                    color: sel ? m.color : Colors.grey.shade600,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -316,8 +332,10 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
                     title: 'Sharing',
                     child: SwitchListTile(
                       contentPadding: EdgeInsets.zero,
-                      title: const Text('Shared Subscription',
-                          style: TextStyle(fontWeight: FontWeight.w600)),
+                      title: const Text(
+                        'Shared Subscription',
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
                       subtitle: Text(
                         _sub.isShared ? 'Visible to group members' : 'Private',
                         style: const TextStyle(fontSize: 12),
@@ -340,20 +358,20 @@ class _SubscriptionDetailScreenState extends State<SubscriptionDetailScreen> {
   Widget _div() => const Divider(height: 1, indent: 20, endIndent: 20);
 
   Widget _card({required Widget child}) => Container(
-        margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
+    margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withValues(alpha: 0.05),
+          blurRadius: 12,
+          offset: const Offset(0, 4),
         ),
-        child: child,
-      );
+      ],
+    ),
+    child: child,
+  );
 }
 
 // ── Hero Header ───────────────────────────────────────────────────────────────
@@ -387,9 +405,10 @@ class _HeroHeader extends StatelessWidget {
                     child: const Text(
                       '← Back',
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                   const Spacer(),
@@ -397,7 +416,9 @@ class _HeroHeader extends StatelessWidget {
                     onTap: onSave,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 6),
+                        horizontal: 20,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
@@ -447,11 +468,14 @@ class _InfoRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       child: Row(
         children: [
-          Text(label,
-              style: const TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF444444),
-                  fontWeight: FontWeight.w500)),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Color(0xFF444444),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           const Spacer(),
           trailing,
         ],
@@ -467,30 +491,36 @@ class _Stepper extends StatelessWidget {
   final int max;
   final ValueChanged<int> onChanged;
 
-  const _Stepper(
-      {required this.value,
-      required this.min,
-      required this.max,
-      required this.onChanged});
+  const _Stepper({
+    required this.value,
+    required this.min,
+    required this.max,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         _StepBtn(
-            icon: Icons.remove,
-            onTap: value > min ? () => onChanged(value - 1) : null),
+          icon: Icons.remove,
+          onTap: value > min ? () => onChanged(value - 1) : null,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Text(
             '$value day${value == 1 ? '' : 's'}',
             style: const TextStyle(
-                color: _kBlue, fontWeight: FontWeight.w700, fontSize: 15),
+              color: _kBlue,
+              fontWeight: FontWeight.w700,
+              fontSize: 15,
+            ),
           ),
         ),
         _StepBtn(
-            icon: Icons.add,
-            onTap: value < max ? () => onChanged(value + 1) : null),
+          icon: Icons.add,
+          onTap: value < max ? () => onChanged(value + 1) : null,
+        ),
       ],
     );
   }
@@ -513,9 +543,11 @@ class _StepBtn extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           color: onTap != null ? Colors.white : Colors.grey.shade100,
         ),
-        child: Icon(icon,
-            size: 16,
-            color: onTap != null ? const Color(0xFF444444) : Colors.grey),
+        child: Icon(
+          icon,
+          size: 16,
+          color: onTap != null ? const Color(0xFF444444) : Colors.grey,
+        ),
       ),
     );
   }
@@ -546,11 +578,14 @@ class _SectionCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title,
-              style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xFF1A1A1A))),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+              color: Color(0xFF1A1A1A),
+            ),
+          ),
           const SizedBox(height: 16),
           child,
         ],
@@ -574,17 +609,22 @@ class _BillingCyclePicker extends StatelessWidget {
           width: 40,
           height: 4,
           decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(2)),
+            color: Colors.grey.shade300,
+            borderRadius: BorderRadius.circular(2),
+          ),
         ),
         const SizedBox(height: 16),
-        const Text('Billing Cycle',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
+        const Text(
+          'Billing Cycle',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+        ),
         const SizedBox(height: 8),
         for (final o in ['monthly', 'yearly'])
           ListTile(
-            title: Text(o[0].toUpperCase() + o.substring(1),
-                style: const TextStyle(fontWeight: FontWeight.w600)),
+            title: Text(
+              o[0].toUpperCase() + o.substring(1),
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
             trailing: current == o
                 ? const Icon(Icons.check_circle, color: _kAccent)
                 : null,

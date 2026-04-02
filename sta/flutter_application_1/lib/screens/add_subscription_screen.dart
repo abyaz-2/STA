@@ -144,8 +144,8 @@ class _AddSubscriptionScreenState extends State<AddSubscriptionScreen> {
                       reminderDaysBefore == 7
                           ? 'You\'ll get notifications 7, 3 & 1 day before'
                           : reminderDaysBefore == 3
-                              ? 'You\'ll get notifications 3 & 1 day before'
-                              : 'You\'ll get a notification 1 day before',
+                          ? 'You\'ll get notifications 3 & 1 day before'
+                          : 'You\'ll get a notification 1 day before',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.deepPurple.shade300,
