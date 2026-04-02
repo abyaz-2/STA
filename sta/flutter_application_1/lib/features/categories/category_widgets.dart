@@ -26,7 +26,7 @@ class CategoryWidget extends StatelessWidget {
       height: height,
       padding: padding,
       decoration: BoxDecoration(
-        color: color.withOpacity(0.2),
+        color: color.withValues(alpha: 0.2),
         border: Border.all(color: color, width: 1),
         borderRadius: BorderRadius.circular(20),
       ),
@@ -93,7 +93,7 @@ class CategoryBadge extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        backgroundColor: color.withOpacity(0.2),
+        backgroundColor: color.withValues(alpha: 0.2),
         labelStyle: TextStyle(color: color, fontSize: 12),
         padding: const EdgeInsets.symmetric(horizontal: 8),
       ),
@@ -132,7 +132,7 @@ class CategoryAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: color.withOpacity(0.2),
+      backgroundColor: color.withValues(alpha: 0.2),
       child: Icon(_getIconData(category.icon), color: color),
     );
   }

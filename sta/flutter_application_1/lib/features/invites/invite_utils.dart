@@ -45,19 +45,19 @@ class InviteUtils {
     String label;
 
     if (invite.isExpired) {
-      bgColor = Colors.grey.withOpacity(0.2);
+      bgColor = Colors.grey.withValues(alpha: 0.2);
       textColor = Colors.grey;
       label = 'Expired';
     } else if (invite.status == 'accepted') {
-      bgColor = Colors.green.withOpacity(0.2);
+      bgColor = Colors.green.withValues(alpha: 0.2);
       textColor = Colors.green;
       label = 'Accepted';
     } else if (invite.status == 'rejected') {
-      bgColor = Colors.red.withOpacity(0.2);
+      bgColor = Colors.red.withValues(alpha: 0.2);
       textColor = Colors.red;
       label = 'Rejected';
     } else {
-      bgColor = Colors.blue.withOpacity(0.2);
+      bgColor = Colors.blue.withValues(alpha: 0.2);
       textColor = Colors.blue;
       label = 'Pending';
     }

@@ -219,7 +219,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
           decoration: BoxDecoration(
             color: Color(
               int.parse('0xff${category.color.substring(1)}'),
-            ).withOpacity(0.2),
+            ).withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(

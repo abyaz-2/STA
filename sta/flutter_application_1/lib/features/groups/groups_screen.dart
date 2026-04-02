@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/group.dart';
+import '../../services/storage_service.dart';
+import '../../services/profile_service.dart';
 import '../invites/send_invite_dialog.dart';
 
 class GroupsScreen extends StatefulWidget {
@@ -10,10 +12,23 @@ class GroupsScreen extends StatefulWidget {
 }
 
 class _GroupsScreenState extends State<GroupsScreen> {
-  final List<Group> _groups = [];
+  List<Group> _groups = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadGroups();
+  }
+
+  void _loadGroups() {
+    setState(() {
+      _groups = StorageService.getGroups();
+    });
+  }
 
   void _createGroup() {
     final controller = TextEditingController();
+    const accent = Color(0xFF8BC34A);
     showDialog(
       context: context,
       builder: (context) {
@@ -29,17 +44,23 @@ class _GroupsScreenState extends State<GroupsScreen> {
               child: const Text('Cancel'),
             ),
             ElevatedButton(
-              onPressed: () {
+              style: ElevatedButton.styleFrom(
+                backgroundColor: accent,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () async {
                 if (controller.text.isNotEmpty) {
-                  setState(() {
-                    _groups.add(
-                      Group(
-                        ownerId: 'mock_user123',
-                        name: controller.text,
-                        memberIds: ['mock_user123'],
-                      ),
-                    );
-                  });
+                  final currentUser = ProfileService().getCurrentUser();
+                  final userId = currentUser?.id ?? 'mock_user123';
+                  
+                  final newGroup = Group(
+                    ownerId: userId,
+                    name: controller.text,
+                    memberIds: [userId],
+                  );
+                  
+                  await StorageService.addGroup(newGroup);
+                  _loadGroups();
                 }
                 Navigator.pop(context);
               },
@@ -81,6 +102,10 @@ class _GroupsScreenState extends State<GroupsScreen> {
               ),
               const SizedBox(height: 16),
               ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF8BC34A),
+                  foregroundColor: Colors.white,
+                ),
                 icon: const Icon(Icons.person_add),
                 label: const Text('Invite Member'),
                 onPressed: () {
@@ -123,6 +148,9 @@ class _GroupsScreenState extends State<GroupsScreen> {
               },
             ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFF8BC34A),
+        foregroundColor: Colors.white,
+        shape: const CircleBorder(),
         onPressed: _createGroup,
         child: const Icon(Icons.group_add),
       ),

@@ -98,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // Profile Header
           Container(
             padding: const EdgeInsets.all(24),
-            color: Colors.deepPurple.withOpacity(0.1),
+            color: Colors.deepPurple.withValues(alpha: 0.1),
             child: Column(
               children: [
                 CircleAvatar(

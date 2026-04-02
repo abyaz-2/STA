@@ -118,7 +118,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                 height: 80,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.deepPurple.withOpacity(0.1),
+                  color: Colors.deepPurple.withValues(alpha: 0.1),
                 ),
                 child: Icon(
                   Icons.subscriptions,
@@ -206,9 +206,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.1),
+                  color: Colors.blue.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.blue.withOpacity(0.3)),
+                  border: Border.all(color: Colors.blue.withValues(alpha: 0.3)),
                 ),
                 child: const Text(
                   '💡 Tip: You can sign up with any email. No password required for demo.',

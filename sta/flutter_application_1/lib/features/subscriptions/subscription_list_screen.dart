@@ -41,22 +41,12 @@ class _SubscriptionListScreenState extends State<SubscriptionListScreen> {
                   subscription: sub,
                   onDelete: () async {
                     await StorageService.deleteSubscription(sub.id);
-                    await NotificationService.cancelReminder(sub.id);
+                    await NotificationService.cancelAllReminders(sub.id);
                     loadSubscriptions();
                   },
                 );
               },
             ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const AddSubscriptionScreen()),
-          );
-          loadSubscriptions();
-        },
-      ),
     );
   }
 }

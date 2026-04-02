@@ -8,6 +8,9 @@ class Subscription {
   final bool isShared;
   final String? groupId;
   final String? category;
+  /// How many days before the billing date to fire the reminder notification.
+  /// Supported values: 1, 3, 7. Defaults to 1.
+  final int reminderDaysBefore;
 
   Subscription({
     required this.id,
@@ -19,6 +22,7 @@ class Subscription {
     this.isShared = false,
     this.groupId,
     this.category,
+    this.reminderDaysBefore = 1,
   });
 
   Map<String, dynamic> toMap() {
@@ -32,6 +36,7 @@ class Subscription {
       'isShared': isShared,
       'groupId': groupId,
       'category': category,
+      'reminderDaysBefore': reminderDaysBefore,
     };
   }
 
@@ -40,7 +45,7 @@ class Subscription {
       id: map['id'],
       userId: map['userId'] ?? 'mock_user',
       name: map['name'],
-      amount: map['amount'],
+      amount: (map['amount'] as num).toDouble(),
       billingCycle: map['billingCycle'],
       nextBillingDate: DateTime.parse(
         map['nextBillingDate'] ??
@@ -50,6 +55,7 @@ class Subscription {
       isShared: map['isShared'] ?? map['reminderEnabled'] ?? false,
       groupId: map['groupId'],
       category: map['category'],
+      reminderDaysBefore: map['reminderDaysBefore'] ?? 1,
     );
   }
 
@@ -63,6 +69,7 @@ class Subscription {
     bool? isShared,
     String? groupId,
     String? category,
+    int? reminderDaysBefore,
   }) {
     return Subscription(
       id: id ?? this.id,
@@ -74,6 +81,7 @@ class Subscription {
       isShared: isShared ?? this.isShared,
       groupId: groupId ?? this.groupId,
       category: category ?? this.category,
+      reminderDaysBefore: reminderDaysBefore ?? this.reminderDaysBefore,
     );
   }
 }

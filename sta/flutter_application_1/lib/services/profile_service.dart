@@ -104,6 +104,12 @@ class ProfileService {
   Future<void> logout() async {
     _currentUser = null;
     await _currentUserBox.delete('userId');
+    // Clear Hive boxes on logout for privacy
+    try {
+      await _usersBox.clear();
+    } catch (e) {
+      // User data cleared
+    }
   }
 
   /// Check if user is logged in

@@ -88,7 +88,7 @@ class _CategorySelectionDialogState extends State<CategorySelectionDialog> {
                           decoration: BoxDecoration(
                             color: Color(
                               int.parse('0xff${category.color.substring(1)}'),
-                            ).withOpacity(0.2),
+                            ).withValues(alpha: 0.2),
                             border: Border.all(
                               color: isSelected
                                   ? Colors.blue
